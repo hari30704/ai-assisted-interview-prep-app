@@ -7,34 +7,48 @@ import {LuSparkles} from 'react-icons/lu'
 import Modal from '../components/Modal';
 import Login from './Auth/Login'
 import SignUp from './Auth/Signup'
+import { UserContext } from '../context/userContext';
+import { useContext } from 'react';
+import ProfileInfoCard from '../components/Cards/ProfileInfoCard';
 
 const LandingPage = () => {
-
+     const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
     const [openAuthModal ,setOpenAuthModel] = useState(false);
     const [currentPage, setCurrentPage] = useState("login");
 
-    const handleCTA = () => {};
+    const handleCTA = () => {
+        if(!user){
+            setOpenAuthModel(true);
+        } else{
+            navigate('/dashboard');
+        }
+    };
+
   return (
     <>
     <div className= "w-full min-h-full bg-[#FFFCEF] ">
         <div className="w-[500px] h-[500px] bg-amber-200/20 blur-[65px] absolute top-0 left-0"></div>
+       
         <div className="container mx-auto px-4 pt-6 pb-[200px] relative z-10">
             {/*header*/}
             <header className="flex justify-between items-center mb-16">
                 <div className='text-xl text-black font-bold'>
                     Interview Prep AI
                     </div>
-                    <button 
+                     {user ? (<ProfileInfoCard/> 
+                     ) :( 
+                     <button 
                        className='bg-linear-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white border border-white transition-colors cursor-pointer'
-                       onClick={()=> setOpenAuthModel(true)}>
+                       onClick={()=> setOpenAuthModel(true)}
+                       >
                         Login / Signup
                        </button>
-
+                      ) }
                        </header>
-                       {/*Hero content*/}
 
+                       {/*Hero content*/}
                        <div className='flex flex-col md:flex-row items-center'>
                         <div className='w-full md:w-1/2 pr-4 md-8 md:mb-0'>
                             <div className='flex items-center justify-left mb-2'>
